@@ -1,7 +1,4 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/reports', 'InternshipReportController@index');
+Route::resource('internship-reports', InternshipReportController::class);
