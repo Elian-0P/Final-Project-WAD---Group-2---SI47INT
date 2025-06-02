@@ -8,6 +8,8 @@ use App\Http\Controllers\InternshipApplicationController;
 use App\Http\Controllers\Api\InternshipApplicationApiController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Api\AnnouncementApiController;
+
 
 
 Route::get('/', function () {
@@ -37,8 +39,11 @@ Route::middleware(['auth'])->group(function () {
 
 require __DIR__.'/auth.php';
 
+
 Route::resource('internships', InternshipApplicationController::class)->middleware('auth');
 
 Route::get('/api/internships', [InternshipApplicationApiController::class, 'index']);
 Route::get('/api/internships/{id}', [InternshipApplicationApiController::class, 'show']);
+Route::get('/api/announcements', [AnnouncementApiController::class, 'index']);
+Route::get('/api/announcements/{id}', [AnnouncementApiController::class, 'show']);
 
