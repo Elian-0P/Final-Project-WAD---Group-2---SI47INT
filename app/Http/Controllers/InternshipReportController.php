@@ -1,72 +1,93 @@
 <?php
 
-// app/Http/Controllers/InternshipReportController.php
-
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\InternshipReportController;
-Route::get('/reports', [InternshipReportController::class, 'index']);
 use App\Models\InternshipReport;
 use Illuminate\Http\Request;
 
 class InternshipReportController extends Controller
 {
-    // CREATE
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'intern_name' => 'required|string',
-            'company_name' => 'required|string',
-            'description' => 'required|string',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after_or_equal:start_date',
-        ]);
-
-        $report = InternshipReport::create($validated);
-        return response()->json($report, 201);
-    }
-
-    // READ
+    /**
+     * Display a listiwng of the resource.
+     */
     public function index()
     {
         $reports = InternshipReport::all();
-        return response()->json($reports);
+        return view('internshipReports.index', compact('reports'));
     }
 
-    public function show($id)
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
     {
-        $report = InternshipReport::findOrFail($id);
-        return response()->json($report);
+        return view('internshipReports.create');
     }
 
-    // UPDATE
-    public function update(Request $request, $id)
-    {
-        $report = InternshipReport::findOrFail($id);
-        $validated = $request->validate([
-            'intern_name' => 'sometimes|required|string',
-            'company_name' => 'sometimes|required|string',
-            'description' => 'sometimes|required|string',
-            'start_date' => 'sometimes|required|date',
-            'end_date' => 'sometimes|required|date|after_or_equal:start_date',
-        ]);
+    /**
+     * Store a newly created resource in storage.
+     */
+   public function store(Request $request)
+{
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'student_name' => 'required|string|max:255',
+        'supervisor' => 'required|string|max:255',
+        'report_file' => 'nullable|file|mimes:pdf,doc,docx',
+    ]);
 
-        $report->update($validated);
-        return response()->json($report);
+        if ($request->hasFile('report_file')) {
+        $filePath = $request->file('report_file')->store('reports', 'public');
+        $validated['report_file'] = $filePath;
     }
 
-    // DELETE
-    public function destroy($id)
-    {
-        $report = InternshipReport::findOrFail($id);
-        $report->delete();
-        return response()->json(['message' => 'Report deleted successfully']);
-    }
-
-    public function indexWeb()
-    {
-        $reports = InternshipReport::all();
-        return view('internship_reports.index', compact('reports'));
-    }  
+    InternshipReport::create($validated);
+    return redirect()->route('internshipReports.index')->with('success', 'Report added');
 }
 
+    /**
+     * Display the specified resource.
+     */
+    public function show(InternshipReport $internshipReport)
+    {
+        return view('internshipReports.show', compact('internshipReport'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(InternshipReport $internshipReport)
+    {
+        return view('internshipReports.edit', compact('internshipReport'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, InternshipReport $internshipReport)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'student_name' => 'required|string|max:255',
+            'supervisor' => 'required|string|max:255',
+            'report_file' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
+        ]);
+
+        if ($request->hasFile('report_file')) {
+        $filePath = $request->file('report_file')->store('reports', 'public');
+        $validated['report_file'] = $filePath;
+        }
+
+        $internshipReport->update($validated);
+        return redirect()->route('internshipReports.index')->with('success', 'Report updated');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(InternshipReport $internshipReport)
+    {
+        $internshipReport->delete();
+        return redirect()->route('internshipReports.index')->with('success', 'Internship report deleted successfully.');
+    }
+}

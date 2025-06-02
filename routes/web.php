@@ -1,4 +1,27 @@
 <?php
 
-Route::get('/reports', 'InternshipReportController@index');
-Route::resource('internship-reports', InternshipReportController::class);
+use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\InternshipReportController;
+use App\Http\Controllers\Api\InternshipReportApiController;
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::resource('internshipReports', InternshipReportController::class)->middleware('auth');
+
+Route::get('/api/internshipReports', [InternshipReportApiController::class, 'index']);
+Route::get('/api/internshipReports/{id}', [InternshipReportApiController::class, 'show']);
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
