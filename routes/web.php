@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Api\AnnouncementApiController;
+
 
 
 Route::get('/', function () {
@@ -22,3 +24,6 @@ Route::middleware(['auth'])->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::get('/api/announcements', [AnnouncementApiController::class, 'index']);
+Route::get('/api/announcements/{id}', [AnnouncementApiController::class, 'show']);
