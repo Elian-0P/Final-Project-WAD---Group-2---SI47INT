@@ -34,7 +34,7 @@
 </div>
 
 <div class="flex items-center justify-end mt-6 gap-4">
-    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 ease-in-out shrink-0"> {{-- Added shrink-0 --}}
+    <button type="submit" class="bg-green-600 hover:bg-green-700 text-black font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 ease-in-out shrink-0"> {{-- Added shrink-0 --}}
         {{ $submit }}
     </button>
     <a href="{{ route('internshipReports.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline transition duration-300 ease-in-out shrink-0"> {{-- Removed ml-4 and added shrink-0 --}}

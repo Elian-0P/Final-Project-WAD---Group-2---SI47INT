@@ -52,7 +52,7 @@ class InternshipApplicationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(InternshipApplication $internshipApplication)
+    public function edit(InternshipApplication $internship)
     {
          return view('internships.edit', compact('internship'));
     }
