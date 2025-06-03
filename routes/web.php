@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\EvaluationController;
 
 use App\Http\Controllers\InternshipReportController;
 use App\Http\Controllers\AnnouncementController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Api\InternshipReportApiController;
 Route::get('/', function () {
     return view('welcome');
 });
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -35,7 +37,7 @@ Route::middleware(['auth'])->group(function () {
 
 require __DIR__.'/auth.php';
 
-
+Route::resource('evaluations', EvaluationController::class)->middleware('auth');
 Route::resource('internshipReports', InternshipReportController::class)->middleware('auth');
 Route::resource('internships', InternshipApplicationController::class)->middleware('auth');
 
@@ -46,3 +48,4 @@ Route::get('/api/announcements', [AnnouncementApiController::class, 'index']);
 Route::get('/api/announcements/{id}', [AnnouncementApiController::class, 'show']);
 Route::get('/api/internshipReports', [InternshipReportApiController::class, 'index']);
 Route::get('/api/internshipReports/{id}', [InternshipReportApiController::class, 'show']);
+
