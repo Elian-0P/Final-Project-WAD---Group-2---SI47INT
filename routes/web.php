@@ -1,9 +1,11 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\EvaluationController;
 
+
+
+use App\Http\Controllers\EvaluationController;
+use App\Http\Controllers\InternshipVacancyController;
 use App\Http\Controllers\InternshipReportController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\InternshipApplicationController;
@@ -49,3 +51,9 @@ Route::get('/api/announcements/{id}', [AnnouncementApiController::class, 'show']
 Route::get('/api/internshipReports', [InternshipReportApiController::class, 'index']);
 Route::get('/api/internshipReports/{id}', [InternshipReportApiController::class, 'show']);
 
+Route::get('/vacancies', [InternshipVacancyController::class, 'index'])->name('vacancies.index');
+Route::get('/vacancies/create', [InternshipVacancyController::class, 'create'])->name('vacancies.create');
+Route::post('/vacancies', [InternshipVacancyController::class, 'store'])->name('vacancies.store');
+Route::get('/vacancies/{internshipVacancy}/edit', [InternshipVacancyController::class, 'edit'])->name('vacancies.edit');
+Route::put('/vacancies/{internshipVacancy}', [InternshipVacancyController::class, 'update'])->name('vacancies.update');
+Route::delete('/vacancies/{internshipVacancy}', [InternshipVacancyController::class, 'destroy'])->name('vacancies.destroy');
