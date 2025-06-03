@@ -31,8 +31,6 @@ Route::middleware(['auth'])->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
-    Route::resource('announcements', AnnouncementController::class);
-
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -43,6 +41,8 @@ require __DIR__.'/auth.php';
 Route::resource('evaluations', EvaluationController::class)->middleware('auth');
 Route::resource('internshipReports', InternshipReportController::class)->middleware('auth');
 Route::resource('internships', InternshipApplicationController::class)->middleware('auth');
+Route::resource('announcements', AnnouncementController::class);
+Route::resource('vacancies', InternshipVacancyController::class);
 
 
 Route::get('/api/internships', [InternshipApplicationApiController::class, 'index']);
@@ -57,9 +57,4 @@ Route::get('/api/evaluations', [EvaluationApiController::class, 'index']);
 Route::get('/api/evaluations/{id}', [EvaluationApiController::class, 'show']);
 
 
-Route::get('/vacancies', [InternshipVacancyController::class, 'index'])->name('vacancies.index');
-Route::get('/vacancies/create', [InternshipVacancyController::class, 'create'])->name('vacancies.create');
-Route::post('/vacancies', [InternshipVacancyController::class, 'store'])->name('vacancies.store');
-Route::get('/vacancies/{internshipVacancy}/edit', [InternshipVacancyController::class, 'edit'])->name('vacancies.edit');
-Route::put('/vacancies/{internshipVacancy}', [InternshipVacancyController::class, 'update'])->name('vacancies.update');
-Route::delete('/vacancies/{internshipVacancy}', [InternshipVacancyController::class, 'destroy'])->name('vacancies.destroy');
+

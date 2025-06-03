@@ -1,4 +1,3 @@
-{{-- resources/views/internships/index.blade.php --}}
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -13,7 +12,7 @@
             </div>
         @endif
 
-        <a href="{{ route('internships.create') }}" class="bg-blue-500 text-black px-3 py-2 rounded mb-4 inline-block">+ Add Internship</a>
+        <a href="{{ route('vacancies.create') }}" class="bg-blue-500 text-black px-3 py-2 rounded mb-4 inline-block">+ Add Internship</a>
 
         <table class="w-full table-auto border-collapse border">
             <thead>

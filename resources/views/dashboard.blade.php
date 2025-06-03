@@ -7,20 +7,24 @@
             
             <div class="flex space-x-6">
                 <a href="{{ route('internships.index') }}" 
-                   class="px-6 py-2 rounded-full font-medium text-[#52357B] hover:bg-[#52357B] hover:text-white transition-all duration-300 border border-[#52357B]">
-                    Application
+                   class="px-6 py-2 rounded-full font-medium text-[#52357B] hover:bg-[#52357B] hover:text-white transition-all duration-300 border border-[#52357B] {{ request()->routeIs('internships.*') ? 'bg-[#52357B] text-white' : '' }}">
+                    Applications
+                </a>
+                <a href="{{ route('vacancies.index') }}" 
+                   class="px-6 py-2 rounded-full font-medium text-[#52357B] hover:bg-[#52357B] hover:text-white transition-all duration-300 border border-[#52357B] {{ request()->routeIs('vacancies.*') ? 'bg-[#52357B] text-white' : '' }}">
+                    Vacancies
                 </a>
                 <a href="{{ route('internshipReports.index') }}" 
-                   class="px-6 py-2 rounded-full font-medium text-[#52357B] hover:bg-[#52357B] hover:text-white transition-all duration-300 border border-[#52357B]">
+                   class="px-6 py-2 rounded-full font-medium text-[#52357B] hover:bg-[#52357B] hover:text-white transition-all duration-300 border border-[#52357B] {{ request()->routeIs('internshipReports.*') ? 'bg-[#52357B] text-white' : '' }}">
                     Reports
                 </a>
                 <a href="{{ route('evaluations.index') }}" 
-                   class="px-6 py-2 rounded-full font-medium text-[#52357B] hover:bg-[#52357B] hover:text-white transition-all duration-300 border border-[#52357B]">
-                    Evaluation
+                   class="px-6 py-2 rounded-full font-medium text-[#52357B] hover:bg-[#52357B] hover:text-white transition-all duration-300 border border-[#52357B] {{ request()->routeIs('evaluations.*') ? 'bg-[#52357B] text-white' : '' }}">
+                    Evaluations
                 </a>
                 <a href="{{ route('announcements.index') }}" 
-                   class="px-6 py-2 rounded-full font-medium text-[#52357B] hover:bg-[#52357B] hover:text-white transition-all duration-300 border border-[#52357B]">
-                    Announcement
+                   class="px-6 py-2 rounded-full font-medium text-[#52357B] hover:bg-[#52357B] hover:text-white transition-all duration-300 border border-[#52357B] {{ request()->routeIs('announcements.*') ? 'bg-[#52357B] text-white' : '' }}">
+                    Announcements
                 </a>
             </div>
         </div>
@@ -48,12 +52,19 @@
                         that matter.
                     </p>
                     
-                    <div class="pt-4">
+                    <div class="pt-4 space-x-4">
                         <a href="{{ route('internships.create') }}" 
                            class="inline-flex items-center bg-gradient-to-r from-[#5459AC] to-[#52357B] hover:from-[#52357B] hover:to-[#5459AC] text-white font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg">
                             Apply Now
                             <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                            </svg>
+                        </a>
+                        <a href="{{ route('vacancies.index') }}" 
+                           class="inline-flex items-center bg-white text-[#52357B] font-bold py-4 px-8 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg border-2 border-[#52357B] hover:bg-[#52357B] hover:text-white">
+                            View Vacancies
+                            <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0H8m8 0v2a2 2 0 01-2 2H10a2 2 0 01-2-2V6"></path>
                             </svg>
                         </a>
                     </div>
@@ -71,11 +82,20 @@
             </div>
             
             <div class="mt-20">
+                <!-- Latest Announcement -->
+                @if(session('announcement') || isset($latestAnnouncement))
                 <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-6 mb-12 shadow-xl border-l-8 border-[#5459AC]">
                     <div class="flex items-center justify-between">
                         <div>
                             <h3 class="text-2xl font-bold text-[#52357B] mb-2">📢 Latest Announcement</h3>
-                            <p class="text-[#648DB3] text-lg">New internship opportunities available for Computer Science and Engineering students. Applications open until March 15th.</p>
+                            <p class="text-[#648DB3] text-lg">
+                                {{ $latestAnnouncement->content ?? 'New internship opportunities available for Computer Science and Engineering students. Applications open until March 15th.' }}
+                            </p>
+                            @if(isset($latestAnnouncement))
+                            <p class="text-sm text-gray-500 mt-2">
+                                Posted: {{ $latestAnnouncement->created_at->format('M d, Y') }}
+                            </p>
+                            @endif
                         </div>
                         <div class="hidden md:block">
                             <div class="w-16 h-16 bg-gradient-to-br from-[#5459AC] to-[#52357B] rounded-full flex items-center justify-center">
@@ -86,8 +106,11 @@
                         </div>
                     </div>
                 </div>
+                @endif
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Navigation Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+                    <!-- Applications Card -->
                     <a href="{{ route('internships.index') }}" class="group">
                         <div class="bg-white/90 backdrop-blur-sm p-8 rounded-2xl text-center hover:bg-white transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl">
                             <div class="w-16 h-16 bg-gradient-to-br from-[#5459AC] to-[#52357B] rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:rotate-12 transition-transform duration-300">
@@ -99,7 +122,21 @@
                             <p class="text-[#648DB3]">View and manage your internship applications</p>
                         </div>
                     </a>
+
+                    <!-- Vacancies Card -->
+                    <a href="{{ route('vacancies.index') }}" class="group">
+                        <div class="bg-white/90 backdrop-blur-sm p-8 rounded-2xl text-center hover:bg-white transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl">
+                            <div class="w-16 h-16 bg-gradient-to-br from-[#FF6B6B] to-[#4ECDC4] rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:rotate-12 transition-transform duration-300">
+                                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0H8m8 0v2a2 2 0 01-2 2H10a2 2 0 01-2-2V6"></path>
+                                </svg>
+                            </div>
+                            <h4 class="text-xl font-bold text-[#52357B] mb-2">Vacancies</h4>
+                            <p class="text-[#648DB3]">Browse available internship positions</p>
+                        </div>
+                    </a>
                     
+                    <!-- Reports Card -->
                     <a href="{{ route('internshipReports.index') }}" class="group">
                         <div class="bg-white/90 backdrop-blur-sm p-8 rounded-2xl text-center hover:bg-white transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl">
                             <div class="w-16 h-16 bg-gradient-to-br from-[#648DB3] to-[#5459AC] rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:rotate-12 transition-transform duration-300">
@@ -112,6 +149,7 @@
                         </div>
                     </a>
                     
+                    <!-- Evaluations Card -->
                     <a href="{{ route('evaluations.index') }}" class="group">
                         <div class="bg-white/90 backdrop-blur-sm p-8 rounded-2xl text-center hover:bg-white transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl">
                             <div class="w-16 h-16 bg-gradient-to-br from-[#B2D8CE] to-[#648DB3] rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:rotate-12 transition-transform duration-300">
@@ -124,6 +162,7 @@
                         </div>
                     </a>
                     
+                    <!-- Announcements Card -->
                     <a href="{{ route('announcements.index') }}" class="group">
                         <div class="bg-white/90 backdrop-blur-sm p-8 rounded-2xl text-center hover:bg-white transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-2xl">
                             <div class="w-16 h-16 bg-gradient-to-br from-[#52357B] to-[#B2D8CE] rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:rotate-12 transition-transform duration-300">
