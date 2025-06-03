@@ -18,7 +18,7 @@
                 <label>Event Date</label>
                 <input type="date" name="event_date" class="w-full border p-2" required>
             </div>
-            <button type="submit" class="mt-4 bg-green-500 text-white px-4 py-2">Create</button>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Create</button>
         </form>
     </div>
 </x-app-layout>
