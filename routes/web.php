@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ProfileController;
 
 
 use App\Http\Controllers\EvaluationController;
@@ -10,10 +10,11 @@ use App\Http\Controllers\InternshipReportController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\InternshipApplicationController;
 
-
+use App\Http\Controllers\Api\EvaluationApiController;
 use App\Http\Controllers\Api\AnnouncementApiController;
 use App\Http\Controllers\Api\InternshipApplicationApiController;
 use App\Http\Controllers\Api\InternshipReportApiController;
+use App\Http\Controllers\Api\InternshipVacancyApiController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -50,6 +51,11 @@ Route::get('/api/announcements', [AnnouncementApiController::class, 'index']);
 Route::get('/api/announcements/{id}', [AnnouncementApiController::class, 'show']);
 Route::get('/api/internshipReports', [InternshipReportApiController::class, 'index']);
 Route::get('/api/internshipReports/{id}', [InternshipReportApiController::class, 'show']);
+Route::get('/api/vacancies', [InternshipVacancyApiController::class, 'index']);
+Route::get('/api/vacancies/{id}', [InternshipVacancyApiController::class, 'show']);
+Route::get('/api/evaluations', [EvaluationApiController::class, 'index']);
+Route::get('/api/evaluations/{id}', [EvaluationApiController::class, 'show']);
+
 
 Route::get('/vacancies', [InternshipVacancyController::class, 'index'])->name('vacancies.index');
 Route::get('/vacancies/create', [InternshipVacancyController::class, 'create'])->name('vacancies.create');
