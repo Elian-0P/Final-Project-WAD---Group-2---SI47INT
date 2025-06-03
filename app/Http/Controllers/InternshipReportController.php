@@ -66,7 +66,7 @@ class InternshipReportController extends Controller
      */
     public function update(Request $request, InternshipReport $internshipReport)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
             'student_name' => 'required|string|max:255',
             'supervisor' => 'required|string|max:255',
