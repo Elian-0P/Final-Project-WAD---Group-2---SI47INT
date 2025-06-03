@@ -44,6 +44,14 @@ Route::resource('internships', InternshipApplicationController::class)->middlewa
 Route::resource('announcements', AnnouncementController::class);
 Route::resource('vacancies', InternshipVacancyController::class);
 
+Route::get('/vacancies', [InternshipVacancyController::class, 'index'])->name('vacancies.index');
+Route::get('/vacancies/create', [InternshipVacancyController::class, 'create'])->name('vacancies.create');
+Route::post('/vacancies', [InternshipVacancyController::class, 'store'])->name('vacancies.store');
+Route::get('/vacancies/{internshipVacancy}/edit', [InternshipVacancyController::class, 'edit'])->name('vacancies.edit');
+Route::put('/vacancies/{internshipVacancy}', [InternshipVacancyController::class, 'update'])->name('vacancies.update');
+Route::delete('/vacancies/{internshipVacancy}', [InternshipVacancyController::class, 'destroy'])->name('vacancies.destroy');
+
+
 
 Route::get('/api/internships', [InternshipApplicationApiController::class, 'index']);
 Route::get('/api/internships/{id}', [InternshipApplicationApiController::class, 'show']);

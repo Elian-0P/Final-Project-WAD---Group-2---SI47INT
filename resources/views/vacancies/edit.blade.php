@@ -1,100 +1,82 @@
-@extends('layouts.app')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            Edit Internship Vacancy
+        </h2>
+    </x-slot>
 
-@section('content')
-<div class="row">
-    <div class="col-md-8 offset-md-2">
-        <div class="card">
-            <div class="card-header">
-                <h2>Edit Vacancy</h2>
+    <div class="py-6 max-w-4xl mx-auto sm:px-6 lg:px-8">
+        <form action="{{ route('vacancies.update', $internshipVacancy) }}" method="POST" class="space-y-4">
+            @csrf
+            @method('PUT')
+
+            <div>
+                <label class="block">Title</label>
+                <input type="text" name="title" class="border rounded w-full px-3 py-2"
+                    value="{{ old('title', $internshipVacancy->title) }}">
+                @error('title') <small class="text-red-500">{{ $message }}</small> @enderror
             </div>
-            <div class="card-body">
-                <form action="{{ route('vacancies.update', $internshipVacancy) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Title</label>
-                        <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ old('title', $internshipVacancy->title) }}" required>
-                        @error('title')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
 
-                    <div class="mb-3">
-                        <label for="company_name" class="form-label">Company Name</label>
-                        <input type="text" class="form-control @error('company_name') is-invalid @enderror" id="company_name" name="company_name" value="{{ old('company_name', $internshipVacancy->company_name) }}" required>
-                        @error('company_name')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="location" class="form-label">Location</label>
-                        <input type="text" class="form-control @error('location') is-invalid @enderror" id="location" name="location" value="{{ old('location', $internshipVacancy->location) }}" required>
-                        @error('location')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="duration" class="form-label">Duration</label>
-                        <input type="text" class="form-control @error('duration') is-invalid @enderror" id="duration" name="duration" value="{{ old('duration', $internshipVacancy->duration) }}" required>
-                        @error('duration')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="start_date" class="form-label">Start Date</label>
-                                <input type="date" class="form-control @error('start_date') is-invalid @enderror" id="start_date" name="start_date" value="{{ old('start_date', $internshipVacancy->start_date->format('Y-m-d')) }}" required>
-                                @error('start_date')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="end_date" class="form-label">End Date</label>
-                                <input type="date" class="form-control @error('end_date') is-invalid @enderror" id="end_date" name="end_date" value="{{ old('end_date', $internshipVacancy->end_date->format('Y-m-d')) }}" required>
-                                @error('end_date')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="requirements" class="form-label">Requirements</label>
-                        <textarea class="form-control @error('requirements') is-invalid @enderror" id="requirements" name="requirements" rows="3" required>{{ old('requirements', $internshipVacancy->requirements) }}</textarea>
-                        @error('requirements')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" rows="5" required>{{ old('description', $internshipVacancy->description) }}</textarea>
-                        @error('description')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="positions_available" class="form-label">Available Positions</label>
-                        <input type="number" class="form-control @error('positions_available') is-invalid @enderror" id="positions_available" name="positions_available" value="{{ old('positions_available', $internshipVacancy->positions_available) }}" min="1" required>
-                        @error('positions_available')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="d-grid gap-2">
-                        <button type="submit" class="btn btn-primary">Update Vacancy</button>
-                        <a href="{{ route('vacancies.index') }}" class="btn btn-secondary">Cancel</a>
-                    </div>
-                </form>
+            <div>
+                <label class="block">Company Name</label>
+                <input type="text" name="company_name" class="border rounded w-full px-3 py-2"
+                    value="{{ old('company_name', $internshipVacancy->company_name) }}">
+                @error('company_name') <small class="text-red-500">{{ $message }}</small> @enderror
             </div>
-        </div>
+
+            <div>
+                <label class="block">Location</label>
+                <input type="text" name="location" class="border rounded w-full px-3 py-2"
+                    value="{{ old('location', $internshipVacancy->location) }}">
+                @error('location') <small class="text-red-500">{{ $message }}</small> @enderror
+            </div>
+
+            <div>
+                <label class="block">Duration</label>
+                <input type="text" name="duration" class="border rounded w-full px-3 py-2"
+                    value="{{ old('duration', $internshipVacancy->duration) }}">
+                @error('duration') <small class="text-red-500">{{ $message }}</small> @enderror
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block">Start Date</label>
+                    <input type="date" name="start_date" class="border rounded w-full px-3 py-2"
+                        value="{{ old('start_date', $internshipVacancy->start_date->format('Y-m-d')) }}">
+                    @error('start_date') <small class="text-red-500">{{ $message }}</small> @enderror
+                </div>
+
+                <div>
+                    <label class="block">End Date</label>
+                    <input type="date" name="end_date" class="border rounded w-full px-3 py-2"
+                        value="{{ old('end_date', $internshipVacancy->end_date->format('Y-m-d')) }}">
+                    @error('end_date') <small class="text-red-500">{{ $message }}</small> @enderror
+                </div>
+            </div>
+
+            <div>
+                <label class="block">Requirements</label>
+                <textarea name="requirements" class="border rounded w-full px-3 py-2">{{ old('requirements', $internshipVacancy->requirements) }}</textarea>
+                @error('requirements') <small class="text-red-500">{{ $message }}</small> @enderror
+            </div>
+
+            <div>
+                <label class="block">Description</label>
+                <textarea name="description" class="border rounded w-full px-3 py-2">{{ old('description', $internshipVacancy->description) }}</textarea>
+                @error('description') <small class="text-red-500">{{ $message }}</small> @enderror
+            </div>
+
+            <div>
+                <label class="block">Positions Available</label>
+                <input type="number" name="positions_available" min="1" class="border rounded w-full px-3 py-2"
+                    value="{{ old('positions_available', $internshipVacancy->positions_available) }}">
+                @error('positions_available') <small class="text-red-500">{{ $message }}</small> @enderror
+            </div>
+
+            <div>
+                <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Update</button>
+                <a href="{{ route('vacancies.index') }}" class="ml-4 text-gray-600">Cancel</a>
+            </div>
+        </form>
     </div>
-</div>
-@endsection 
+</x-app-layout>
